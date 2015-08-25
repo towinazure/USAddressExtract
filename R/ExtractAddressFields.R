@@ -15,8 +15,8 @@
 
 ExtractAddrressFields <- function(address.string) {
 
-  street_suf_keywords <- read.csv('data\\StreetSuffix.csv', header = TRUE, colClasses = rep('character', 2))
-  street_direction_keywords <- c('East','South', 'West', 'North', 'E', 'S', 'W', 'N', 'NW', 'NE', 'SW', 'SE')
+#   street_suf_keywords <- read.csv('data\\StreetSuffix.csv', header = TRUE, colClasses = rep('character', 2))
+#   street_direction_keywords <- c('East','South', 'West', 'North', 'E', 'S', 'W', 'N', 'NW', 'NE', 'SW', 'SE')
 
   string.pool <- unlist(strsplit(address.string, c(' ', ',')))
   string.pool <- gsub('\\.', '', string.pool)
@@ -34,7 +34,7 @@ ExtractAddrressFields <- function(address.string) {
   Zip.pos   <- length(string.pool) + which(grepl('^([0-9]{5,5})$', string.pool[(length(string.pool)-1):length(string.pool)])) - 2
   State.pos <- length(string.pool) + which(grepl('^([A-Z]{2,2})$', string.pool[(length(string.pool)-1):length(string.pool)])) - 2
 
-  if(Zip.pos > 0 | State.pos > 0){
+  if(length(Zip.pos) > 0 | length(State.pos) > 0){
 
     Zip   <-  string.pool[Zip.pos]
     State <-  string.pool[State.pos]
@@ -50,11 +50,13 @@ ExtractAddrressFields <- function(address.string) {
 
   Nbr.pos <- which(grepl('^[0-9]+', string.pool[1]))
 
-  if(Nbr.pos > 0){
+  if(length(Nbr.pos) > 0){
+    if(Nbr.pos > 0){
 
     Nbr   <-  string.pool[Nbr.pos]
     string.pool <- string.pool[-1 * Nbr.pos]
 
+    }
   }else{
 
     print('Cannot find Street Number')
@@ -64,34 +66,40 @@ ExtractAddrressFields <- function(address.string) {
 
   Unit.Suf.pos <- which(grepl('^((Apt)|(Unit))$', string.pool, ignore.case = TRUE))
 
-  if(Unit.Suf.pos > 0 & Unit.Suf.pos < length(string.pool)){
+  if(length(Unit.Suf.pos) > 0){
+    if(Unit.Suf.pos > 0 & Unit.Suf.pos < length(string.pool)){
 
-    Unit.pos <- (Unit.Suf.pos + 1) : length(string.pool)
+      Unit.pos <- (Unit.Suf.pos + 1) : length(string.pool)
 
-    Unit.Suf <- string.pool[Unit.Suf.pos]
-    Unit     <- string.pool[Unit.pos]
+      Unit.Suf <- string.pool[Unit.Suf.pos]
+      Unit     <- string.pool[Unit.pos]
 
-    string.pool <- string.pool[-1 * c(Unit.Suf.pos, Unit.pos)]
+      string.pool <- string.pool[-1 * c(Unit.Suf.pos, Unit.pos)]
 
+    }
   }
 
   St.Suf.pos <- max(which(string.pool %in% c(street_suf_keywords$Name, street_suf_keywords$Suffix)))
 
-  if(St.Suf.pos == length(string.pool)){
+  if(length(St.Suf.pos) > 0){
+    if(St.Suf.pos == length(string.pool)){
 
-    St.Suf <- string.pool[St.Suf.pos]
-    string.pool <- string.pool[-St.Suf.pos]
+      St.Suf <- string.pool[St.Suf.pos]
+      string.pool <- string.pool[-St.Suf.pos]
 
-    St.Dr.pos <- which(string.pool %in% street_direction_keywords)
+      St.Dr.pos <- which(string.pool %in% street_direction_keywords)
 
-    if(St.Dr.pos > 0){
+      if(length(St.Dr.pos) > 0){
+        if(St.Dr.pos > 0){
 
-      St.Dr <- string.pool[St.Dr.pos]
-      string.pool <- string.pool[-St.Dr.pos]
+        St.Dr <- string.pool[St.Dr.pos]
+        string.pool <- string.pool[-St.Dr.pos]
 
+        }
+      }
+
+      St.Name <- paste(string.pool, sep = ' ', collapse = ' ')
     }
-
-    St.Name <- paste(string.pool, sep = ' ', collapse = ' ')
 
   }else{
 
