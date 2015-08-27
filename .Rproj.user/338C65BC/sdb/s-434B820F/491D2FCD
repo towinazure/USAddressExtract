@@ -1,0 +1,17 @@
+{
+    "contents" : "Package: USAddressExtract\nType: Package\nTitle: U.S. Address Fields Extracting\nVersion: 0.1\nDate: 2015-08-24\nAuthor: To Wang Ng\nMaintainer: <edwin.ng@auction.com>\nDescription: This package aims to provide help in extracting fields from one single address string\nLicense: What license is it under?\nLazyData: TRUE\n",
+    "created" : 1440546165570.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "90527369",
+    "id" : "491D2FCD",
+    "lastKnownWriteTime" : 1440645221,
+    "path" : "C:/Users/Edwin/Desktop/Edwin(10-08-2012)/Work/Edwin R/USAddressExtract/USAddressExtract/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "dcf"
+}

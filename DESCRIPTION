@@ -1,10 +1,10 @@
 Package: USAddressExtract
 Type: Package
-Title: What the Package Does (Title Case)
+Title: U.S. Address Fields Extracting
 Version: 0.1
 Date: 2015-08-24
 Author: To Wang Ng
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Maintainer: <edwin.ng@auction.com>
+Description: This package aims to provide help in extracting fields from one single address string
 License: What license is it under?
 LazyData: TRUE

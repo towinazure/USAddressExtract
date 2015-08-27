@@ -1,0 +1,18 @@
+{
+    "contents" : "---\ntitle: \"Example of USAddressExtract Package\"\nauthor: \"Edwin Ng\"\ndate: Tuesday, August 24, 2015\ngeometry: margin=0.5in\nfontsize: 11pt\noutput: \n  pdf_document:\n    toc: true\n    fig_width: 12\n    fig_height: 6\n    keep_tex: true\n\n---\n\n# Objective\n\nThis document aims to provide an example of the package and explain the use case.\n\n# Introduction\n\nTo match address from two different database, we often need to compare fields such as street name, street suffix, direction of the street(North, South etc.), state, zip etc.  \n\nHowever, one challenge is that two identical addresses could look very different because of the format. Below is an example.\n\n1832 South 1st avenue # 32 CA 94123\n\nvs.\n\n1832 S. 1st AVE # 32 CA 94123\n\nvs.\n\n1832 S. 1st Ave UNIT 32 San Francisco CA 94123\n\n(Of course, the address is made up.)\n\nIt is hard to define the similarity of two address string unless we have a good decomposition. This package aims to provide a decomposition and keywords conversion (such as avenue to AVE and vice versa) for addresses in order to for us further control the comparisons.  For example, we can define if the street name is contained by another one allowing some flexibility while we want other fields such as street suffix, unit number and the zip code are exact.\n\n# Example\n```{r reading_data, echo=FALSE, results='hide'}\nsetwd('C:\\\\Users\\\\Edwin\\\\Desktop\\\\Edwin(10-08-2012)\\\\Work\\\\Auction.com\\\\R\\\\AddressMatching')\n\ntarget.data <- read.csv('test_data.csv', colClasses = rep('character', 2))\n\n```\n\nWe first load the package.\n```{r library, results='hide', message=FALSE}\nlibrary(USAddressExtract)\nlibrary(dplyr)\n```\n\nHere is our data set.\n```{r show_data}\nhead(target.data, n = 10)\n```\n\nBelow is a brief example to use the function __ExtractAddressFields()__.\n```{r use_example}\n\nstart.time <- Sys.time()\n\ntarget.data$Zip             <- NA\ntarget.data$State           <- NA\ntarget.data$Nbr             <- NA\ntarget.data$St.Suf          <- NA\ntarget.data$St.Dr           <- NA\ntarget.data$St.Name         <- NA\ntarget.data$Unit.Suf        <- NA\ntarget.data$Unit            <- NA\ntarget.data$Process.Status  <- NA\n\nfor(i in 1:nrow(target.data)){\n\n  x <- ExtractAddrressFields(target.data$Address[i])\n\n  if(!is.null(x)){\n\n    target.data$Zip[i]             <- x$Zip\n    target.data$State[i]           <- x$State\n    target.data$Nbr[i]             <- x$Nbr\n    target.data$St.Suf[i]          <- x$St.Suf\n    target.data$St.Dr[i]           <- x$St.Dr\n    target.data$St.Name[i]         <- x$St.Name\n    target.data$Unit.Suf[i]        <- x$Unit.Suf\n    target.data$Unit[i]            <- x$Unit\n    target.data$Process.Status[i]  <- x$Status\n\n  }\n}\n\nend.time <- Sys.time()\nelapsed <- round(as.numeric(difftime(end.time, start.time, units = \"mins\")), 1)\n```\n\n```{r show_result}\nhead(target.data, n = 10)\n```\nThe column __Process.Status__ is going to tell you the message of how that particular conversion perform.\n\n```{r table_result}\ntable(target.data$Process.Status)\n```\n\n# Computation Cost\n\nNumber of rows: $`r nrow(target.data)`$\n\nTime used: $`r elapsed`$ minutes.\n\n# Version\nThis is wrote for version 1.0.\n\n",
+    "created" : 1440638133986.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "1550998593",
+    "id" : "6CFE3D6C",
+    "lastKnownWriteTime" : 1440647664,
+    "path" : "C:/Users/Edwin/Desktop/Edwin(10-08-2012)/Work/Auction.com/R/AddressMatching/Example.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_markdown"
+}
